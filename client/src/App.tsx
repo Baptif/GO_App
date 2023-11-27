@@ -1,7 +1,8 @@
-import { Box, List, ThemeIcon } from '@mantine/core'
+import { Box, List, ActionIcon  } from '@mantine/core'
 import useSWR from 'swr'
 import AddTodo from './components/AddTodo'
-import { CheckCircleFillIcon } from '@primer/octicons-react';
+import { FaCheck } from "react-icons/fa";
+import { Toaster } from 'react-hot-toast';
 
 export interface Todo {
   id: number
@@ -19,8 +20,8 @@ const App = () => {
 
   const { data, mutate } = useSWR<Todo[]>('api/todos', fetcher)
 
-  const markTodoAsDone = async (id: number) => {
-    const updated = await fetch(`${ENDPOINT}/api/todos/${id}/done`, {
+  const markTodoAsState = async (id: number, state: string) => {
+    const updated = await fetch(`${ENDPOINT}/api/todos/${id}/${state}`, {
       method: "PATCH",
     }).then((res) => res.json())
 
@@ -40,17 +41,16 @@ const App = () => {
         {data?.map((todo) => {
           return (
             <List.Item 
-              onClick={() => markTodoAsDone(todo.id)}
               key={`todo_list_${todo.id}`}
               icon={
                 todo.done ? (
-                  <ThemeIcon color="teal" size={24} radius="xl">
-                    <CheckCircleFillIcon size={20} />
-                  </ThemeIcon>
+                  <ActionIcon onClick={() => markTodoAsState(todo.id,"undone")} color="teal" size={24} radius="xl">
+                    <FaCheck />
+                  </ActionIcon >
                 ) : (
-                  <ThemeIcon color="gray" size={24} radius="xl">
-                    <CheckCircleFillIcon size={20} />
-                  </ThemeIcon>
+                  <ActionIcon onClick={() => markTodoAsState(todo.id,"done")} color="gray" size={24} radius="xl">
+                    <FaCheck />
+                  </ActionIcon >
                 )
               }
             >{todo.title}</List.Item>
@@ -59,6 +59,7 @@ const App = () => {
       </List>
 
       <AddTodo mutate={mutate}/>
+      <Toaster />
     </Box>
     
   )

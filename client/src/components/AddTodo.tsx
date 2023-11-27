@@ -3,6 +3,7 @@ import {useForm} from '@mantine/form'
 import { Button, Group, Modal, TextInput, Textarea } from '@mantine/core'
 import { ENDPOINT, Todo } from '../App'
 import { KeyedMutator } from 'swr'
+import toast from 'react-hot-toast';
 
 const AddTodo = ({mutate} : {mutate: KeyedMutator<Todo[]>}) => { 
     const [open, setOpen] = useState(false)
@@ -26,23 +27,24 @@ const AddTodo = ({mutate} : {mutate: KeyedMutator<Todo[]>}) => {
         mutate(updated)
         form.reset()
         setOpen(false)
+        toast.success(`Successfully created ${values.title} !`, {duration: 2500});
     }
 
     return (
         <>
-        <Modal opened={open} onClose={() => setOpen(false)} title="Create todo">
+        <Modal opened={open} onClose={() => setOpen(false)} title="✏️ Create todo ✏️">
             <form onSubmit={form.onSubmit(createTodo)}>
                 <TextInput
                     required
                     mb={12}
-                    label="Todo"
+                    label="Task"
                     placeholder="What do you need to do ?"
                     {...form.getInputProps("title")}
                 />
                 <Textarea
                     required
                     mb={12}
-                    label="Body"
+                    label="Content"
                     placeholder="Tell me more about it.."
                     {...form.getInputProps("body")}
                 />
@@ -50,7 +52,7 @@ const AddTodo = ({mutate} : {mutate: KeyedMutator<Todo[]>}) => {
             </form>
         </Modal>
         <Group>
-            <Button fullWidth mb={12} onClick={() => setOpen(true)}>ADD TODO</Button>
+            <Button fullWidth mb={12} onClick={() => setOpen(true)}>CREATE TODO</Button>
         </Group>
         </>
     )
