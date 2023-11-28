@@ -24,33 +24,26 @@ func GetAllTodos(c *fiber.Ctx) error {
 	return c.JSON(database.Todos)
 }
 
-func MarkTodoAsDone(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
+func MarkTodoAsState(c *fiber.Ctx) error {
+	id, errID := c.ParamsInt("id")
+	stateParam := c.Params("state")
 
-	if err != nil {
+	var state bool
+
+	if errID != nil {
 		return c.Status(401).SendString("Invalid ID")
+	}
+	if stateParam == "done" {
+		state = true
+	} else if stateParam == "undone" {
+		state = false
+	} else {
+		return c.Status(401).SendString("Invalid state")
 	}
 
 	for i, t := range database.Todos {
 		if t.ID == id {
-			database.Todos[i].Done = true
-			break
-		}
-	}
-
-	return c.JSON(database.Todos)
-}
-
-func MarkTodoAsUndone(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
-
-	if err != nil {
-		return c.Status(401).SendString("Invalid ID")
-	}
-
-	for i, t := range database.Todos {
-		if t.ID == id {
-			database.Todos[i].Done = false
+			database.Todos[i].Done = state
 			break
 		}
 	}

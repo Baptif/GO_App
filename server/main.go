@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World")
+	fmt.Println("API is running")
 
 	app := fiber.New()
 

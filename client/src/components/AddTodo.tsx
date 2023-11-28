@@ -1,11 +1,16 @@
 import {useState} from 'react'
 import {useForm} from '@mantine/form'
 import { Button, Group, Modal, TextInput, Textarea } from '@mantine/core'
-import { ENDPOINT, Todo } from '../App'
+import {Todo} from '../interfaces/Todo'
 import { KeyedMutator } from 'swr'
-import toast from 'react-hot-toast';
+import toast from 'react-hot-toast'
+import { createTodoWorker } from '../api/TodoWorkers'
 
-const AddTodo = ({mutate} : {mutate: KeyedMutator<Todo[]>}) => { 
+type Props = {
+    mutate: KeyedMutator<Todo[]>
+}
+
+const AddTodo = ({mutate} : Props) => { 
     const [open, setOpen] = useState(false)
 
     const form = useForm({
@@ -16,18 +21,12 @@ const AddTodo = ({mutate} : {mutate: KeyedMutator<Todo[]>}) => {
     })
 
     const createTodo = async (values: {title: string, body: string}) => {
-        const updated = await fetch(`${ENDPOINT}/api/todos`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-        }).then((res) => res.json())
-
+        const updated = await createTodoWorker(values)
         mutate(updated)
+        
         form.reset()
         setOpen(false)
-        toast.success(`Successfully created ${values.title} !`, {duration: 2500});
+        toast.success(`Successfully created ${values.title} !`, {duration: 2000});
     }
 
     return (

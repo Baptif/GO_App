@@ -13,6 +13,5 @@ func SetupRoutes(app *fiber.App) {
 	v1.Get("/", handler.GetAllTodos)
 	v1.Get("/:id", handler.GetOneTodo)
 	v1.Post("/", handler.CreateTodo)
-	v1.Patch("/:id/done", handler.MarkTodoAsDone)
-	v1.Patch("/:id/undone", handler.MarkTodoAsUndone)
+	v1.Patch("/:id/:state", handler.MarkTodoAsState)
 }
