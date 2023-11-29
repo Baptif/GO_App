@@ -21,12 +21,12 @@ const ListItem = ({todo,mutate}: Props) => {
             key={`todo_list_${todo.id}`}
             icon={
                 todo.done ? (
-                    <ActionIcon onClick={() => markTodoAsState(todo.id,"undone")} color="teal" size={24} radius="xl">
-                    <FaCheck />
+                    <ActionIcon onClick={() => markTodoAsState(todo.id,"undone")} color="green" size={24} radius="xl">
+                        <FaCheck />
                     </ActionIcon >
                 ) : (
                     <ActionIcon onClick={() => markTodoAsState(todo.id,"done")} color="gray" size={24} radius="xl">
-                    <FaCheck />
+                        <FaCheck />
                     </ActionIcon >
                 )
             }

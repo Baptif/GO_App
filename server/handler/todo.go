@@ -66,3 +66,23 @@ func GetOneTodo(c *fiber.Ctx) error {
 
 	return c.Status(404).SendString("Todo not found")
 }
+
+func DeleteTodo(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+
+	var pos int
+
+	if err != nil {
+		return c.Status(401).SendString("Invalid ID")
+	}
+
+	for i, t := range database.Todos {
+		if t.ID == id {
+			pos = i
+		}
+	}
+
+	database.Todos = append(database.Todos[:pos], database.Todos[pos+1:]...)
+
+	return c.JSON(database.Todos)
+}
