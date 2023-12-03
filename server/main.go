@@ -3,13 +3,14 @@ package main
 import (
 	"fmt"
 	"log"
+
 	"github.com/baptif/go-react-todo/router"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
-	fmt.Println("API is running")
+	fmt.Println("🔥 API is running 🔥")
 
 	app := fiber.New()
 
@@ -28,5 +29,5 @@ func main() {
 		return c.SendStatus(404) // => 404 "Not Found"
 	})
 
-	log.Fatal(app.Listen(":4000"))
+	log.Fatal(app.Listen(":8080"))
 }
