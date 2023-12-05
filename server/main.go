@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/baptif/go-react-todo/database"
 	"github.com/baptif/go-react-todo/router"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -11,6 +12,8 @@ import (
 
 func main() {
 	fmt.Println("🔥 API is running 🔥")
+
+	database.ConnectDb()
 
 	app := fiber.New()
 
