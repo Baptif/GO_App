@@ -1,4 +1,4 @@
-import { List, ActionIcon } from '@mantine/core'
+import { List, ActionIcon, Group } from '@mantine/core'
 import {Todo} from '../interfaces/Todo'
 import { FaCheck } from "react-icons/fa";
 import { markTodoAsStateWorker } from '../api/TodoWorkers'
@@ -17,20 +17,20 @@ const ListItem = ({todo,mutate}: Props) => {
 
     return (
         <>
-        <List.Item 
-            key={`todo_list_${todo.id}`}
-            icon={
-                todo.done ? (
-                    <ActionIcon onClick={() => markTodoAsState(todo.id,"undone")} color="green" size={24} radius="xl">
-                        <FaCheck />
-                    </ActionIcon >
-                ) : (
-                    <ActionIcon onClick={() => markTodoAsState(todo.id,"done")} color="gray" size={24} radius="xl">
-                        <FaCheck />
-                    </ActionIcon >
-                )
-            }
-        >{todo.title}</List.Item>
+            <List.Item 
+                key={`todo_list_${todo.ID}`}
+                icon={
+                    todo.done ? (
+                        <ActionIcon onClick={() => markTodoAsState(todo.ID,"undone")} color="green" size={24} radius="xl">
+                            <FaCheck />
+                        </ActionIcon >
+                    ) : (
+                        <ActionIcon onClick={() => markTodoAsState(todo.ID,"done")} color="gray" size={24} radius="xl">
+                            <FaCheck />
+                        </ActionIcon >
+                    )
+                }
+            >{todo.title}</List.Item>
         </>
     )
 }
