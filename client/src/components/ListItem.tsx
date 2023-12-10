@@ -1,4 +1,4 @@
-import { List, ActionIcon, Group } from '@mantine/core'
+import { List, ActionIcon, Text } from '@mantine/core'
 import {Todo} from '../interfaces/Todo'
 import { FaCheck } from "react-icons/fa";
 import { markTodoAsStateWorker } from '../api/TodoWorkers'
@@ -30,7 +30,9 @@ const ListItem = ({todo,mutate}: Props) => {
                         </ActionIcon >
                     )
                 }
-            >{todo.title}</List.Item>
+            >
+            <Text onClick={() => alert(todo.title)}>{todo.title}</Text>
+            </List.Item>
         </>
     )
 }

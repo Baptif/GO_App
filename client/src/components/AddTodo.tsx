@@ -31,7 +31,7 @@ const AddTodo = ({mutate} : Props) => {
 
     return (
         <>
-        <Modal opened={open} onClose={() => setOpen(false)} title="✏️ Create todo ✏️">
+        <Modal size="lg" opened={open} onClose={() => setOpen(false)} title="✏️ Create todo ✏️">
             <form onSubmit={form.onSubmit(createTodo)}>
                 <TextInput
                     required
@@ -50,8 +50,8 @@ const AddTodo = ({mutate} : Props) => {
                 <Button type="submit">Create TODO</Button>
             </form>
         </Modal>
-        <Group>
-            <Button fullWidth mb={12} onClick={() => setOpen(true)}>CREATE TODO</Button>
+        <Group justify="center">
+            <Button style={{width:'50rem'}} mb={12} onClick={() => setOpen(true)}>CREATE TODO</Button>
         </Group>
         </>
     )
