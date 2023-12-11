@@ -4,8 +4,9 @@ import ListItem from './components/ListItem'
 import { Toaster } from 'react-hot-toast'
 import { Todo } from './interfaces/Todo'
 import { fetcherWorker } from './api/TodoWorkers'
-import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Burger, Group, Skeleton, Text, List } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks'
+import { AppShell, Burger, Group, Skeleton, Text, List, ActionIcon } from '@mantine/core'
+import { MdOutlineDarkMode } from "react-icons/md"
 
 
 const App = () => {
@@ -25,6 +26,9 @@ const App = () => {
         <Group h="100%" px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <Text>🔥 TODO APP 🔥</Text>
+          <ActionIcon onClick={() => alert("dark")} size={28} radius="xl">
+            <MdOutlineDarkMode  />
+          </ActionIcon>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
