@@ -102,5 +102,5 @@ func DeleteAllTodos(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Failed to delete all todos")
 	}
 
-	return c.SendString("Todos all successfully deleted")
+	return GetAllTodos(c)
 }

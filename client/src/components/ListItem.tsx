@@ -1,19 +1,16 @@
 import { List, ActionIcon, Text } from '@mantine/core'
 import {Todo} from '../interfaces/Todo'
 import { FaCheck } from "react-icons/fa";
-import { markTodoAsStateWorker } from '../api/TodoWorkers'
+import { markTodoAsStateWorker} from '../api/TodoWorkers'
 import { KeyedMutator } from 'swr';
 
 type Props = {
     todo: Todo,
-    mutate: KeyedMutator<Todo[]>
+    mutate: KeyedMutator<Todo[]>,
+    toggleDetails(todo: Todo): void
 }
 
-const ListItem = ({todo,mutate}: Props) => {
-    const markTodoAsState = async (id: number, state: string) => {
-        const updated = await markTodoAsStateWorker(id, state)
-        mutate(updated)
-    }
+const ListItem = ({todo,mutate,toggleDetails}: Props) => {
 
     return (
         <>
@@ -21,17 +18,17 @@ const ListItem = ({todo,mutate}: Props) => {
                 key={`todo_list_${todo.ID}`}
                 icon={
                     todo.done ? (
-                        <ActionIcon onClick={() => markTodoAsState(todo.ID,"undone")} color="green" size={24} radius="xl">
+                        <ActionIcon onClick={() => markTodoAsStateWorker(todo.ID,"undone",mutate)} color="green" size={24} radius="xl">
                             <FaCheck />
                         </ActionIcon >
                     ) : (
-                        <ActionIcon onClick={() => markTodoAsState(todo.ID,"done")} color="gray" size={24} radius="xl">
+                        <ActionIcon onClick={() => markTodoAsStateWorker(todo.ID,"done",mutate)} color="gray" size={24} radius="xl">
                             <FaCheck />
                         </ActionIcon >
                     )
                 }
             >
-            <Text onClick={() => alert(todo.title)}>{todo.title}</Text>
+            <Text onClick={() => toggleDetails(todo)}>{todo.title}</Text>
             </List.Item>
         </>
     )

@@ -4,7 +4,7 @@ import { Button, Group, Modal, TextInput, Textarea } from '@mantine/core'
 import {Todo} from '../interfaces/Todo'
 import { KeyedMutator } from 'swr'
 import toast from 'react-hot-toast'
-import { createTodoWorker } from '../api/TodoWorkers'
+import { createTodoWorker, deleteAllTodosWorker } from '../api/TodoWorkers'
 
 type Props = {
     mutate: KeyedMutator<Todo[]>
@@ -21,9 +21,7 @@ const AddTodo = ({mutate} : Props) => {
     })
 
     const createTodo = async (values: {title: string, body: string}) => {
-        const updated = await createTodoWorker(values)
-        mutate(updated)
-        
+        await createTodoWorker(values, mutate)
         form.reset()
         setOpen(false)
         toast.success(`Successfully created ${values.title} !`, {duration: 2000});
@@ -52,6 +50,7 @@ const AddTodo = ({mutate} : Props) => {
         </Modal>
         <Group justify="center">
             <Button style={{width:'50rem'}} mb={12} onClick={() => setOpen(true)}>CREATE TODO</Button>
+            <Button color="red" mb={12} onClick={() => deleteAllTodosWorker(mutate)} >DELETE ALL TODOS</Button>
         </Group>
         </>
     )

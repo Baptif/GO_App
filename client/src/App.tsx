@@ -7,30 +7,43 @@ import { fetcherWorker } from './api/TodoWorkers'
 import { useDisclosure } from '@mantine/hooks'
 import { AppShell, Burger, Group, Skeleton, Text, List, ActionIcon } from '@mantine/core'
 import { MdOutlineDarkMode } from "react-icons/md"
+import TaskDetails from './components/TaskDetails'
+import { useState } from 'react'
 
 
 const App = () => {
 
   const { data, mutate } = useSWR<Todo[]>('api/todos', fetcherWorker)
-  const [opened, { toggle }] = useDisclosure();
+
+  const [openedNavBar, handlerNavbar ] = useDisclosure()
+  const [openedDetails, handlerDetails ] = useDisclosure()
+  const [currentTodo, setCurrentTodo] = useState<Todo>()
+
+  const toggleTaskDetails = (todo: Todo) => {
+    setCurrentTodo(todo)
+    handlerDetails.toggle()
+  }
 
   return (
     <AppShell
       header={{ height: 60 }}
       footer={{ height: 60 }}
-      navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      aside={{ width: 400, breakpoint: 'md', collapsed: { desktop: false, mobile: true } }}
+      navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !openedNavBar } }}
+      aside={{ width: 400, breakpoint: 'md', collapsed: { desktop: !openedDetails, mobile: !openedDetails } }}
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Text>🔥 TODO APP 🔥</Text>
-          <ActionIcon onClick={() => alert("dark")} size={28} radius="xl">
+        <Group h="100%" px="md" justify='space-between'>
+          <Group>
+            <Burger opened={openedNavBar} onClick={handlerNavbar.toggle} hiddenFrom="sm" size="sm" />
+            <Text>🔥 TODO APP 🔥</Text>
+          </Group>
+          <ActionIcon onClick={() => alert("dark")} size={32} radius="xl">
             <MdOutlineDarkMode  />
           </ActionIcon>
         </Group>
       </AppShell.Header>
+
       <AppShell.Navbar p="md">
         <Text>Lists</Text>
         {Array(15)
@@ -39,22 +52,27 @@ const App = () => {
             <Skeleton key={index} h={28} mt="sm" animate={false} />
           ))}
       </AppShell.Navbar>
+
       <AppShell.Main>
         <List spacing="xs" size="sm" mb={12} center>
           {data?.map((todo) => {
             return (
-              <ListItem todo={todo} mutate={mutate}/>
+              <ListItem todo={todo} mutate={mutate} toggleDetails={toggleTaskDetails}/>
             )
           })}
         </List>
       </AppShell.Main>
+
       <AppShell.Aside p="md">
-        Details
+        <TaskDetails todo={currentTodo}/>
       </AppShell.Aside>
+
       <AppShell.Footer p="sm">
         <AddTodo mutate={mutate}/>
       </AppShell.Footer>
+
       <Toaster />
+
     </AppShell>
   )
 }
