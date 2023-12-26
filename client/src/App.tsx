@@ -5,10 +5,10 @@ import { Toaster } from 'react-hot-toast'
 import { Todo } from './interfaces/Todo'
 import { fetcherWorker } from './api/TodoWorkers'
 import { useDisclosure } from '@mantine/hooks'
-import { AppShell, Burger, Group, Skeleton, Text, List, ActionIcon } from '@mantine/core'
-import { MdOutlineDarkMode } from "react-icons/md"
+import { AppShell, Burger, Group, Skeleton, Text, List } from '@mantine/core'
 import TaskDetails from './components/TaskDetails'
 import { useState } from 'react'
+import ButtonThemeSwitcher from './components/ButtonThemeSwitcher'
 
 
 const App = () => {
@@ -38,9 +38,7 @@ const App = () => {
             <Burger opened={openedNavBar} onClick={handlerNavbar.toggle} hiddenFrom="sm" size="sm" />
             <Text>🔥 TODO APP 🔥</Text>
           </Group>
-          <ActionIcon onClick={() => alert("dark")} size={32} radius="xl">
-            <MdOutlineDarkMode  />
-          </ActionIcon>
+          <ButtonThemeSwitcher/>
         </Group>
       </AppShell.Header>
 

@@ -5,6 +5,7 @@ import {Todo} from '../interfaces/Todo'
 import { KeyedMutator } from 'swr'
 import toast from 'react-hot-toast'
 import { createTodoWorker, deleteAllTodosWorker } from '../api/TodoWorkers'
+import { useMantineColorScheme } from '@mantine/core'
 
 type Props = {
     mutate: KeyedMutator<Todo[]>
@@ -12,7 +13,7 @@ type Props = {
 
 const AddTodo = ({mutate} : Props) => { 
     const [open, setOpen] = useState(false)
-
+    const { colorScheme } = useMantineColorScheme()
     const form = useForm({
         initialValues: {
             title: "",
@@ -24,7 +25,13 @@ const AddTodo = ({mutate} : Props) => {
         await createTodoWorker(values, mutate)
         form.reset()
         setOpen(false)
-        toast.success(`Successfully created ${values.title} !`, {duration: 2000});
+        toast.success(`Successfully created ${values.title} !`, {
+            duration: 2000, 
+            style: {
+                background: colorScheme === 'dark' ? "#1F1F1F" : "",
+                color: colorScheme === 'dark' ? "#fff" : "",
+            }
+        });
     }
 
     return (
@@ -39,7 +46,7 @@ const AddTodo = ({mutate} : Props) => {
                     {...form.getInputProps("title")}
                 />
                 <Textarea
-                    required
+                    required //required texte est en français style bootstrap => pas beau
                     mb={12}
                     label="Content"
                     placeholder="Tell me more about it.."
