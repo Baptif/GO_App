@@ -26,7 +26,7 @@ const AddTodo = ({mutate} : Props) => {
         form.reset()
         setOpen(false)
         toast.success(`Successfully created ${values.title} !`, {
-            duration: 2000, 
+            duration: 2500,
             style: {
                 background: colorScheme === 'dark' ? "#1F1F1F" : "",
                 color: colorScheme === 'dark' ? "#fff" : "",

@@ -28,7 +28,7 @@ const ListItem = ({todo,mutate,toggleDetails}: Props) => {
                     )
                 }
             >
-            <Text onClick={() => toggleDetails(todo)}>{todo.title}</Text>
+            <Text onClick={() => toggleDetails(todo)} style={{cursor:'pointer'}}>{todo.title}</Text>
             </List.Item>
         </>
     )

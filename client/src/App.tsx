@@ -20,8 +20,14 @@ const App = () => {
   const [currentTodo, setCurrentTodo] = useState<Todo>()
 
   const toggleTaskDetails = (todo: Todo) => {
-    setCurrentTodo(todo)
-    handlerDetails.toggle()
+    if (currentTodo === undefined || currentTodo?.ID !== todo.ID) {
+      setCurrentTodo(todo)
+      if (!openedDetails) {
+        handlerDetails.toggle()
+      }
+    } else {
+      handlerDetails.toggle()
+    }
   }
 
   return (
@@ -29,7 +35,7 @@ const App = () => {
       header={{ height: 60 }}
       footer={{ height: 60 }}
       navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !openedNavBar } }}
-      aside={{ width: 400, breakpoint: 'md', collapsed: { desktop: !openedDetails, mobile: !openedDetails } }}
+      aside={{ width: 450, breakpoint: 'md', collapsed: { desktop: !openedDetails, mobile: !openedDetails } }}
       padding="md"
     >
       <AppShell.Header>
@@ -42,7 +48,7 @@ const App = () => {
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar p="md" style={{zIndex:'9999'}}>
         <Text>Lists</Text>
         {Array(15)
           .fill(0)
@@ -62,7 +68,7 @@ const App = () => {
       </AppShell.Main>
 
       <AppShell.Aside p="md">
-        <TaskDetails todo={currentTodo}/>
+        <TaskDetails todo={currentTodo} closeDetails={handlerDetails.close}/>
       </AppShell.Aside>
 
       <AppShell.Footer p="sm">
