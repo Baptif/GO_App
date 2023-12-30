@@ -5,8 +5,9 @@ import {Todo} from '../interfaces/Todo'
 export const fetcherWorker = (url: string) => 
     fetch(`${ENDPOINT}/${url}`).then((res) => res.json())
 
-export const markTodoAsStateWorker = async (id: number, state: string, mutate: KeyedMutator<Todo[]>) => {
-    const updated = await fetch(`${ENDPOINT}/api/todos/${id}/${state}`, {
+export const markTodoAsStateWorker = async (todo: Todo, mutate: KeyedMutator<Todo[]>) => {
+    const todoState = todo.done ? "undone" : "done"
+    const updated = await fetch(`${ENDPOINT}/api/todos/${todo.ID}/${todoState}`, {
       method: "PATCH",
     }).then((res) => res.json())
 
@@ -25,21 +26,30 @@ export const createTodoWorker = async (values: {title: string, body: string}, mu
     mutate(updated)
 }
 
-export const deleteAllTodosWorker = async (mutate: KeyedMutator<Todo[]>) => {
-    const updated = await fetch(`${ENDPOINT}/api/todos`, {
-        method: "DELETE",
+export const updateTodoWorker = async (id: number, values: {title: string, body: string}, mutate: KeyedMutator<Todo[]>) => {
+    const updated = await fetch(`${ENDPOINT}/api/todos/${id}`, {
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
+        body: JSON.stringify(values),
     }).then((res) => res.json())
 
     mutate(updated)
 }
 
-// export const getTodoWorker = async (id: number) => {
-//     const todo: Todo = await fetch(`${ENDPOINT}/api/todos/${id}`, {
-//       method: "GET",
-//     }).then((res) => res.json())
+export const deleteAllTodosWorker = async (mutate: KeyedMutator<Todo[]>) => {
+    const updated = await fetch(`${ENDPOINT}/api/todos`, {
+        method: "DELETE",
+    }).then((res) => res.json())
 
-//     return todo
-// }
+    mutate(updated)
+}
+
+export const deleteOneTodoWorker = async (id: number, mutate: KeyedMutator<Todo[]>) => {
+    const updated = await fetch(`${ENDPOINT}/api/todos/${id}`, {
+      method: "DELETE",
+    }).then((res) => res.json())
+
+    mutate(updated)
+}

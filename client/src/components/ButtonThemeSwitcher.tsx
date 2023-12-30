@@ -13,9 +13,9 @@ const ButtonThemeSwitcher = () => {
             color={dark ? 'yellow' : 'blue'}
             onClick={() => toggleColorScheme()}
             title={dark ? "Light theme" : "Dark theme"}
-            size={32}
+            size={36}
         >
-            <MdOutlineDarkMode size={22}/>
+            <MdOutlineDarkMode size={26}/>
         </ActionIcon>
     );
 }

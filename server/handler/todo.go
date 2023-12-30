@@ -59,6 +59,32 @@ func MarkTodoAsState(c *fiber.Ctx) error {
 	return GetAllTodos(c)
 }
 
+func UpdateTodo(c *fiber.Ctx) error {
+    id, errID := c.ParamsInt("id")
+    if errID != nil {
+        return c.Status(401).SendString("Invalid ID")
+    }
+
+    var existingTodo model.Todo
+    if err := database.Database.Db.First(&existingTodo, id).Error; err != nil {
+        return c.Status(404).SendString("Todo not found")
+    }
+
+    var todoToUpdate model.Todo
+    if err := c.BodyParser(&todoToUpdate); err != nil {
+        return err
+    }
+
+    existingTodo.Title = todoToUpdate.Title
+    existingTodo.Body = todoToUpdate.Body
+
+    if err := database.Database.Db.Save(&existingTodo).Error; err != nil {
+        return c.Status(500).SendString("Failed to update todo")
+    }
+
+    return GetAllTodos(c)
+}
+
 func GetOneTodo(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("id")
 

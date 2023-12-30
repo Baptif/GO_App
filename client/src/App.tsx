@@ -37,6 +37,7 @@ const App = () => {
       navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !openedNavBar } }}
       aside={{ width: 450, breakpoint: 'md', collapsed: { desktop: !openedDetails, mobile: !openedDetails } }}
       padding="md"
+      zIndex={100}
     >
       <AppShell.Header>
         <Group h="100%" px="md" justify='space-between'>
@@ -48,7 +49,7 @@ const App = () => {
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md" style={{zIndex:'9999'}}>
+      <AppShell.Navbar p="md" zIndex={101}>
         <Text>Lists</Text>
         {Array(15)
           .fill(0)
@@ -61,14 +62,28 @@ const App = () => {
         <List spacing="xs" size="sm" mb={12} center>
           {data?.map((todo) => {
             return (
-              <ListItem todo={todo} mutate={mutate} toggleDetails={toggleTaskDetails}/>
+              <ListItem 
+                key={`todo_item_${todo.ID}`} 
+                todo={todo} 
+                mutate={mutate} 
+                toggleDetails={toggleTaskDetails}
+              />
             )
           })}
         </List>
       </AppShell.Main>
 
       <AppShell.Aside p="md">
-        <TaskDetails todo={currentTodo} closeDetails={handlerDetails.close}/>
+        {data?.filter(todo => todo.ID == currentTodo?.ID)
+          .map(todo => (
+            <TaskDetails 
+              key={`todo_detail_${todo.ID}`} 
+              todo={todo} 
+              mutate={mutate} 
+              closeDetails={handlerDetails.close}
+            />
+          ))
+        }
       </AppShell.Aside>
 
       <AppShell.Footer p="sm">
