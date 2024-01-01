@@ -5,7 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import { Todo } from './interfaces/Todo'
 import { fetcherWorker } from './api/TodoWorkers'
 import { useDisclosure } from '@mantine/hooks'
-import { AppShell, Burger, Group, Skeleton, Text, List } from '@mantine/core'
+import { AppShell, Burger, Group, Skeleton, Text, List, Title, ScrollArea } from '@mantine/core'
 import TaskDetails from './components/TaskDetails'
 import { useState } from 'react'
 import ButtonThemeSwitcher from './components/ButtonThemeSwitcher'
@@ -43,7 +43,7 @@ const App = () => {
         <Group h="100%" px="md" justify='space-between'>
           <Group>
             <Burger opened={openedNavBar} onClick={handlerNavbar.toggle} hiddenFrom="sm" size="sm" />
-            <Text>🔥 TODO APP 🔥</Text>
+            <Title order={4}>🔥 TODO APP 🔥</Title>
           </Group>
           <ButtonThemeSwitcher/>
         </Group>
@@ -59,18 +59,38 @@ const App = () => {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <List spacing="xs" size="sm" mb={12} center>
-          {data?.map((todo) => {
-            return (
-              <ListItem 
-                key={`todo_item_${todo.ID}`} 
-                todo={todo} 
-                mutate={mutate} 
-                toggleDetails={toggleTaskDetails}
-              />
-            )
-          })}
-        </List>
+        <Text mb={4}>En cours</Text>
+        <ScrollArea h={250} type="auto">
+          <List spacing="xs" size="sm" mb={12} center>
+            {data?.filter(todo => !todo.done)
+              .map(todo => {
+              return (
+                <ListItem 
+                  key={`todo_item_${todo.ID}`} 
+                  todo={todo} 
+                  mutate={mutate} 
+                  toggleDetails={toggleTaskDetails}
+                />
+              )
+            })}
+          </List>
+        </ScrollArea>
+        <Text mt={12} mb={4}>Terminé</Text>
+        <ScrollArea h={250} type="auto">
+          <List spacing="xs" size="sm" mb={12} center>
+            {data?.filter(todo => todo.done)
+              .map(todo => {
+              return (
+                <ListItem 
+                  key={`todo_item_${todo.ID}`} 
+                  todo={todo} 
+                  mutate={mutate} 
+                  toggleDetails={toggleTaskDetails}
+                />
+              )
+            })}
+          </List>
+        </ScrollArea>
       </AppShell.Main>
 
       <AppShell.Aside p="md">

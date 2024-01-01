@@ -5,7 +5,7 @@ type Props = {
     message: String,
     opened: boolean,
     onClose(): void,
-    onConfirm(): Promise<void>,
+    onConfirm(): void,
 }
 
 const ConfirmationModal = ({ title, message, opened, onClose, onConfirm }: Props) => {

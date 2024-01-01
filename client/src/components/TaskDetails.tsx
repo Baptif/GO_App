@@ -25,8 +25,8 @@ const TaskDetails = ({todo,mutate,closeDetails}: Props) => {
             body: todo.body,
         },
         validate: {
-            title: hasLength({ min: 1, max: 100 }, 'Title must be 1-100 characters long'),
-            body: isNotEmpty("Enter your task content"),
+            title: hasLength({ min: 1, max: 100 }, 'TODO title must be 1-100 characters long'),
+            body: isNotEmpty("Enter your TODO content"),
         },
     })
 
@@ -51,7 +51,7 @@ const TaskDetails = ({todo,mutate,closeDetails}: Props) => {
                 <ActionIcon onClick={() => handlerUpdateForm.toggle()}>
                     <FaPencilAlt />
                 </ActionIcon>
-                <ButtonDeleteTodo todo={todo} mutate={mutate} size={28} radius="sm"/>
+                <ButtonDeleteTodo todo={todo} mutate={mutate} closeDetails={closeDetails} size={28} radius="sm"/>
             </Group>
             {opened ? (
                 <Box component="form" onSubmit={form.onSubmit(updateTodo)}>
