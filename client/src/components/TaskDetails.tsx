@@ -1,8 +1,8 @@
 import { Text, Title, CloseButton, Box, Group, ActionIcon, TextInput, Textarea, Button } from '@mantine/core'
 import { Todo } from '../interfaces/Todo'
 import { FaPencilAlt   } from "react-icons/fa"
-import ButtonCheckTodo from './ButtonCheckTodo'
-import ButtonDeleteTodo from './ButtonDeleteTodo'
+import ButtonCheckTodo from './Buttons/ButtonCheckTodo'
+import ButtonDeleteTodo from './Buttons/ButtonDeleteTodo'
 import { KeyedMutator } from 'swr'
 import { useDisclosure } from '@mantine/hooks'
 import { hasLength, isNotEmpty, useForm } from '@mantine/form'

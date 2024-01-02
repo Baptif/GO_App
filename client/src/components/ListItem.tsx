@@ -1,7 +1,7 @@
 import { List, Text } from '@mantine/core'
 import {Todo} from '../interfaces/Todo'
 import { KeyedMutator } from 'swr'
-import ButtonCheckTodo from './ButtonCheckTodo'
+import ButtonCheckTodo from './Buttons/ButtonCheckTodo'
 
 type Props = {
     todo: Todo,

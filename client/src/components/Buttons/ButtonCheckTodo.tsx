@@ -1,7 +1,7 @@
 import { ActionIcon, MantineRadius } from "@mantine/core"
 import { FaCheck } from "react-icons/fa"
-import {Todo} from '../interfaces/Todo'
-import { markTodoAsStateWorker} from '../api/TodoWorkers'
+import {Todo} from '../../interfaces/Todo'
+import { markTodoAsStateWorker} from '../../api/TodoWorkers'
 import { KeyedMutator } from "swr"
 
 type Props = {

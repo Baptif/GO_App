@@ -1,14 +1,14 @@
 import useSWR from 'swr'
 import AddTodo from './components/AddTodo'
-import ListItem from './components/ListItem'
 import { Toaster } from 'react-hot-toast'
 import { Todo } from './interfaces/Todo'
 import { fetcherWorker } from './api/TodoWorkers'
 import { useDisclosure } from '@mantine/hooks'
-import { AppShell, Burger, Group, Skeleton, Text, List, Title, ScrollArea } from '@mantine/core'
+import { Accordion, AppShell, Burger, Group, Skeleton, Text, Title } from '@mantine/core'
 import TaskDetails from './components/TaskDetails'
 import { useState } from 'react'
-import ButtonThemeSwitcher from './components/ButtonThemeSwitcher'
+import ButtonThemeSwitcher from './components/Buttons/ButtonThemeSwitcher'
+import ListOfTodos from './components/List'
 
 
 const App = () => {
@@ -59,38 +59,33 @@ const App = () => {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <Text mb={4}>En cours</Text>
-        <ScrollArea h={250} type="auto">
-          <List spacing="xs" size="sm" mb={12} center>
-            {data?.filter(todo => !todo.done)
-              .map(todo => {
-              return (
-                <ListItem 
-                  key={`todo_item_${todo.ID}`} 
-                  todo={todo} 
-                  mutate={mutate} 
-                  toggleDetails={toggleTaskDetails}
-                />
-              )
-            })}
-          </List>
-        </ScrollArea>
-        <Text mt={12} mb={4}>Terminé</Text>
-        <ScrollArea h={250} type="auto">
-          <List spacing="xs" size="sm" mb={12} center>
-            {data?.filter(todo => todo.done)
-              .map(todo => {
-              return (
-                <ListItem 
-                  key={`todo_item_${todo.ID}`} 
-                  todo={todo} 
-                  mutate={mutate} 
-                  toggleDetails={toggleTaskDetails}
-                />
-              )
-            })}
-          </List>
-        </ScrollArea>
+        <Accordion multiple variant="separated" radius="md">
+
+          <Accordion.Item value="listDoing">
+            <Accordion.Control icon={'🚀'}>Doing</Accordion.Control>
+            <Accordion.Panel>
+              <ListOfTodos 
+                data={data}
+                filter={"!todo.done"}
+                mutate={mutate} 
+                toggleTaskDetails={toggleTaskDetails}
+              />
+            </Accordion.Panel>
+          </Accordion.Item>
+
+          <Accordion.Item value="listFinish">
+            <Accordion.Control icon={'🤩'}>Finish</Accordion.Control>
+            <Accordion.Panel>
+              <ListOfTodos 
+                data={data}
+                filter={"todo.done"}
+                mutate={mutate} 
+                toggleTaskDetails={toggleTaskDetails}
+              />
+            </Accordion.Panel>
+          </Accordion.Item>
+
+        </Accordion>
       </AppShell.Main>
 
       <AppShell.Aside p="md">

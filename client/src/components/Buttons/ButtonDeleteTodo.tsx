@@ -1,10 +1,10 @@
 import { ActionIcon, MantineRadius, useMantineColorScheme } from "@mantine/core"
 import { FaTrashAlt } from "react-icons/fa"
-import {Todo} from '../interfaces/Todo'
+import {Todo} from '../../interfaces/Todo'
 import { KeyedMutator } from "swr"
-import ConfirmationModal from './ConfirmationModal'
+import ConfirmationModal from '../ConfirmationModal'
 import { useDisclosure } from '@mantine/hooks'
-import { deleteOneTodoWorker } from '../api/TodoWorkers'
+import { deleteOneTodoWorker } from '../../api/TodoWorkers'
 import toast from "react-hot-toast"
 
 type Props = {
