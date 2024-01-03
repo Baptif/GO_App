@@ -8,7 +8,7 @@ import { Accordion, AppShell, Burger, Group, Skeleton, Text, Title } from '@mant
 import TaskDetails from './components/TaskDetails'
 import { useState } from 'react'
 import ButtonThemeSwitcher from './components/Buttons/ButtonThemeSwitcher'
-import ListOfTodos from './components/List'
+import ListOfTodos from './components/ListOfTodos'
 
 
 const App = () => {
@@ -18,6 +18,9 @@ const App = () => {
   const [openedNavBar, handlerNavbar ] = useDisclosure()
   const [openedDetails, handlerDetails ] = useDisclosure()
   const [currentTodo, setCurrentTodo] = useState<Todo>()
+  const [accordion , setAccordion] = useState<string[]>([])
+
+  const accordionContentHeight = accordion.length === 1 ? '60vh' : '25vh';
 
   const toggleTaskDetails = (todo: Todo) => {
     if (currentTodo === undefined || currentTodo?.ID !== todo.ID) {
@@ -34,8 +37,8 @@ const App = () => {
     <AppShell
       header={{ height: 60 }}
       footer={{ height: 60 }}
-      navbar={{ width: 250, breakpoint: 'sm', collapsed: { mobile: !openedNavBar } }}
-      aside={{ width: 450, breakpoint: 'md', collapsed: { desktop: !openedDetails, mobile: !openedDetails } }}
+      navbar={{ width: 250, breakpoint: 'md', collapsed: { mobile: !openedNavBar } }}
+      aside={{ width: 450, breakpoint: 'sm', collapsed: { desktop: !openedDetails, mobile: !openedDetails } }}
       padding="md"
       zIndex={100}
     >
@@ -59,14 +62,15 @@ const App = () => {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <Accordion multiple variant="separated" radius="md">
+        <Accordion multiple variant="separated" radius="md" value={accordion} onChange={setAccordion}>
 
-          <Accordion.Item value="listDoing">
-            <Accordion.Control icon={'🚀'}>Doing</Accordion.Control>
+          <Accordion.Item value="listInProgress">
+            <Accordion.Control icon={'🫡'}>In progress</Accordion.Control>
             <Accordion.Panel>
               <ListOfTodos 
                 data={data}
-                filter={"!todo.done"}
+                height={accordionContentHeight}
+                filter="!todo.done"
                 mutate={mutate} 
                 toggleTaskDetails={toggleTaskDetails}
               />
@@ -78,7 +82,8 @@ const App = () => {
             <Accordion.Panel>
               <ListOfTodos 
                 data={data}
-                filter={"todo.done"}
+                height={accordionContentHeight}
+                filter="todo.done"
                 mutate={mutate} 
                 toggleTaskDetails={toggleTaskDetails}
               />
